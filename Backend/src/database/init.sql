@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS pary(
+    id SERIAL PRIMARY KEY,
+    lugar VARCHAR(100) NOT NULL,
+    nombre VARCHAR(150) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS promotor (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    fecha_nacimiento DATE NOT NULL DEFAULT CURRENT_DATE,
+    promedio NUMERIC(3, 1) CHECK (promedio BETWEEN 0 AND 5)
+);
+
+CREATE TABLE IF NOT EXISTS viajes (
+    id_viaje SERIAL PRIMARY KEY,
+    hora TIME NOT NULL,
+    fecha DATE NOT NULL
+);

@@ -1,0 +1,105 @@
+<main class="page">
+	<header class="header">
+		<a class="logo" href="#inicio" aria-label="Pulso, inicio">PULSO<span>.</span></a>
+		<nav aria-label="Navegación principal">
+			<a href="#parys">Registros</a>
+			<a href="#promotores">Promotores</a>
+			<a routerLink="/viajes">Viajes</a>
+		</nav>
+		<a class="button" href="#parys">Ver datos</a>
+	</header>
+
+	<section class="hero" id="inicio" aria-labelledby="titulo-principal">
+		<div class="hero-copy">
+			<div class="eyebrow">Información conectada a la API</div>
+			<h1 id="titulo-principal">Tus datos, desde el servidor.</h1>
+			<p>
+				Consulta registros, promotores y viajes cargados directamente desde el backend.
+			</p>
+			<div class="actions">
+				<a class="button" href="#parys">Ver registros</a>
+				<a class="secondary-link" routerLink="/viajes">Consultar viajes →</a>
+			</div>
+		</div>
+	</section>
+
+	<section id="parys" aria-labelledby="titulo-parys">
+		<div class="section-title">
+			<div>
+				<h2 id="titulo-parys">Registros de Pary</h2>
+				<p>Nombre y lugar recibidos de la API.</p>
+			</div>
+		</div>
+
+		<div class="events">
+			@if (paryLoading) {
+				<p class="data-message" role="status">Cargando registros...</p>
+			} @else if (paryError) {
+				<div class="data-message data-error" role="alert">
+					<p>{{ paryError }}</p>
+					<button class="retry-button" type="button" (click)="loadParys()">Reintentar</button>
+				</div>
+			} @else if (parys.length === 0) {
+				<p class="data-message">No hay registros disponibles.</p>
+			} @else {
+				@for (pary of parys; track pary.id) {
+					<article class="event">
+						<div class="event-art"><span>REGISTRO #{{ pary.id }}</span></div>
+						<div class="event-details">
+							<div class="date">Nombre</div>
+							<h3>{{ pary.nombre }}</h3>
+							<div class="event-meta">
+								<span>Lugar: {{ pary.lugar }}</span>
+							</div>
+						</div>
+					</article>
+				}
+			}
+		</div>
+	</section>
+
+	<section id="promotores" aria-labelledby="titulo-promotores">
+		<div class="section-title">
+			<div>
+				<h2 id="titulo-promotores">Promotores</h2>
+				<p>Personas y calificaciones registradas en el servidor.</p>
+			</div>
+		</div>
+
+		<div class="events">
+			@if (promotoresLoading) {
+				<p class="data-message" role="status">Cargando promotores...</p>
+			} @else if (promotoresError) {
+				<div class="data-message data-error" role="alert">
+					<p>{{ promotoresError }}</p>
+					<button class="retry-button" type="button" (click)="loadPromotores()">Reintentar</button>
+				</div>
+			} @else if (promotores.length === 0) {
+				<p class="data-message">No hay promotores disponibles.</p>
+			} @else {
+				@for (promotor of promotores; track promotor.id) {
+					<article class="event">
+						<div class="event-art"><span>PROMOTOR #{{ promotor.id }}</span></div>
+						<div class="event-details">
+							<h3>{{ promotor.nombre }}</h3>
+							<p>Fecha de nacimiento: {{ promotor.fecha_nacimiento }}</p>
+							<div class="event-meta">
+								<span>
+									@if (promotor.promedio !== null) {
+										Promedio: {{ promotor.promedio }}
+									} @else {
+										Sin promedio
+									}
+								</span>
+							</div>
+						</div>
+					</article>
+				}
+			}
+		</div>
+	</section>
+
+	<footer>
+		<p>La información de registros y promotores se consulta en el backend. <a routerLink="/viajes">Ver viajes</a></p>
+	</footer>
+</main>

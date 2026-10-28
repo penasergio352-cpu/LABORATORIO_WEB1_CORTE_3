@@ -1,0 +1,53 @@
+<main class="trips-page">
+  <header class="trips-heading">
+    <div>
+      <p class="eyebrow">Agenda de salidas</p>
+      <h1>Viajes</h1>
+      <p class="description">Consulta las fechas y horas registradas en el sistema.</p>
+    </div>
+    <div class="heading-icon" aria-hidden="true">
+      <i class="bi bi-calendar2-week"></i>
+    </div>
+  </header>
+
+  <section class="trips-section" aria-labelledby="trips-title">
+    <div class="section-heading">
+      <div>
+        <h2 id="trips-title">Viajes programados</h2>
+        <p>Información cargada desde el backend.</p>
+      </div>
+      @if (!loading && !error) {
+        <span class="trip-count">{{ viajes.length }} {{ viajes.length === 1 ? 'viaje' : 'viajes' }}</span>
+      }
+    </div>
+
+    @if (loading) {
+      <p class="state-message" role="status">Cargando viajes...</p>
+    } @else if (error) {
+      <div class="state-message error-message" role="alert">
+        <p>{{ error }}</p>
+        <button type="button" class="retry-button" (click)="loadViajes()">Reintentar</button>
+      </div>
+    } @else if (viajes.length === 0) {
+      <p class="state-message">No hay viajes registrados por el momento.</p>
+    } @else {
+      <div class="trips-grid">
+        @for (viaje of viajes; track viaje.id_viaje) {
+          <article class="trip-card">
+            <div class="trip-icon" aria-hidden="true">
+              <i class="bi bi-geo-alt"></i>
+            </div>
+            <div class="trip-info">
+              <p class="trip-number">VIAJE #{{ viaje.id_viaje }}</p>
+              <h3>{{ formatDate(viaje.fecha) }}</h3>
+              <p class="trip-time">
+                <i class="bi bi-clock" aria-hidden="true"></i>
+                {{ formatTime(viaje.hora) }}
+              </p>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </section>
+</main>
